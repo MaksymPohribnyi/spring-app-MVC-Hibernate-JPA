@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Assign or release the book to reader</title>
+</head>
+
+<body>
+	<p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfRelease()}" />
+
+	<form th:method="PATCH" th:action="@{/web-library/books/{id}/release(id = ${book.getId()})}" th:if="${owner}">
+		<p th:text="'This book now has this reader: ' + ${owner.getName()}" />
+		<input type="submit" value="Release" />
+	</form>
+
+	<form th:method="PATCH" th:action="@{/web-library/books/{id}/assign(id = ${book.getId()})}"
+		th:if="${listOfReaders}">
+		<p> <span> This book is available now. To whom assign?</span> </p>
+		<label for="readerOpt"> Choose a reader: </label>
+		<select th:object="${reader}" th:field="*{id}" id="readerOpt">
+			<option th:each="reader : ${listOfReaders}" th:value="${reader.getId()}" th:text="${reader.getName()}" />
+		</select>
+		<input type="submit" value="Assign" />
+	</form>
+
+	<br />
+	<hr />
+	<form th:method="GET" th:action="@{/web-library/books/{id}/edit(id = ${book.getId()})}">
+		<input type="submit" value="Edit" />
+	</form>
+	<form th:method="DELETE" th:action="@{/web-library/books/{id}(id = ${book.getId()})}">
+		<input type="submit" value="Delete" />
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Create new reader</title>
+</head>
+
+<body>
+
+	<form th:method="POST" th:action="@{/web-library/readers}" th:object="${reader}">
+		<label for="name">Enter name:</label>
+		<input type="text" th:field="*{name}" id="name" />
+		<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"> Name error </div>
+		<br />
+		<label for="birthDate">Enter birth date:</label>
+		<input type="text" th:field="*{birthDate}" id="birthDate" />
+		<div style="color:red;" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"> Birth error </div>
+		<br />
+		<input type="submit" value="Create" />
+	</form>
+
+</body>
+
+</html>

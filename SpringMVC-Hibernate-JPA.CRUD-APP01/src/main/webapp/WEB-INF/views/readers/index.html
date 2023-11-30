@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>List of web-library readers</title>
+</head>
+
+<body>
+
+	<div th:each="reader : ${readers}">
+		<a th:href="@{/web-library/readers/{id}(id = ${reader.getId()})}"
+			th:text="${reader.getName() + ', ' + reader.getBirthDate()}">
+			User</a>
+	</div>
+
+	<br />
+	<hr />
+
+	<a th:href="@{/web-library/readers/new}">Create new reader</a>
+
+</body>
+
+</html>

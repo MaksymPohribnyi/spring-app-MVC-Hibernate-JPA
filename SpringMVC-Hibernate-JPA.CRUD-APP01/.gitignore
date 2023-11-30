@@ -1,0 +1,16 @@
+/target/
+/Java edu/
+database.properties
+hibernate.properties
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders

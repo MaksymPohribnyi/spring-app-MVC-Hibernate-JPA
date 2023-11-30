@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Reader page</title>
+</head>
+
+<body>
+
+	<!--	<p th:text="${reader.getId()}" />-->
+	<p th:text="${reader.getName() + ', ' + reader.getBirthDate()}" />
+	<hr />
+	<p> <span th:if="${#lists.isEmpty(books)}">This reader hasn't picked up a book yet</span> </p>
+	<div th:unless="${#lists.isEmpty(books)}">
+		<p> <b> Books: </b> </p>
+		<tr th:each="book : ${books}">
+			<td th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfRelease()}" />
+			<br />
+		</tr>
+	</div>
+
+	<br />
+	<hr />
+
+	<form th:method="GET" th:action="@{/web-library/readers/{id}/edit(id = ${reader.getId()})}">
+		<input type="submit" value="Edit" />
+	</form>
+	<form th:method="DELETE" th:action="@{/web-library/readers/{id}(id = ${reader.getId()})}">
+		<input type="submit" value="Delete" />
+	</form>
+
+</body>
+
+</html>
