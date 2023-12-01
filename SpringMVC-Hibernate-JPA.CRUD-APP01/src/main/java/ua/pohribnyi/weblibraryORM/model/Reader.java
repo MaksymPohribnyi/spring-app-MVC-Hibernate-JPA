@@ -1,6 +1,9 @@
 package ua.pohribnyi.weblibraryORM.model;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -28,9 +30,8 @@ public class Reader {
 	private String name;
 
 	@Column(name = "birth_date")
-	@NotEmpty(message = "Birth date should be not empty")
-	@Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2}", message = "Birth date should be a DATE type and format like YYYY-MM-DD")
-	private String birthDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date birthDate;
 
 	@OneToMany(mappedBy = "owner")
 	private List<Book> books;
@@ -39,7 +40,7 @@ public class Reader {
 
 	}
 
-	public Reader(int id, String name, String birthDate) {
+	public Reader(int id, String name, Date birthDate) {
 		this.id = id;
 		this.name = name;
 		this.birthDate = birthDate;
@@ -61,11 +62,11 @@ public class Reader {
 		this.name = name;
 	}
 
-	public String getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(String birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 

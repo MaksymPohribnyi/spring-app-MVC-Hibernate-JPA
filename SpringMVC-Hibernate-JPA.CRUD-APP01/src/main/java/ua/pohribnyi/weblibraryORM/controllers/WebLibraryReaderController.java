@@ -1,5 +1,6 @@
 package ua.pohribnyi.weblibraryORM.controllers;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +39,9 @@ public class WebLibraryReaderController {
 
 	@GetMapping("/{id}")
 	public String show(@PathVariable("id") int id, Model model) {
-		model.addAttribute("reader", readerService.findOne(id));
-		// model.addAttribute("books", bookDAO.showReaderBooks(id));
+		Reader reader = readerService.findOne(id);
+		model.addAttribute("reader", reader);
+		model.addAttribute("books", readerService.getBookListByReaderId(id));
 		return "readers/show";
 	}
 
@@ -54,7 +56,7 @@ public class WebLibraryReaderController {
 
 		if (bindingResult.hasErrors())
 			return "readers/new";
-		// readerDAO.save(reader);
+		readerService.save(reader);
 		return "redirect:/web-library/readers";
 	}
 
@@ -72,13 +74,13 @@ public class WebLibraryReaderController {
 
 		if (bindingResult.hasErrors())
 			return "readers/edit";
-		// readerDAO.update(id, reader);
+		readerService.update(id, reader);
 		return "redirect:/web-library/readers";
 	}
 
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable("id") int id) {
-		// readerDAO.delete(id);
+		readerService.delete(id);
 		return "redirect:/web-library/readers";
 	}
 

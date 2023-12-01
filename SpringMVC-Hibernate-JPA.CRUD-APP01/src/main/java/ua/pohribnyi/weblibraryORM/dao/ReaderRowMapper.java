@@ -14,7 +14,7 @@ public class ReaderRowMapper implements RowMapper<Reader> {
 		Reader reader = new Reader();
 		reader.setId(rs.getInt("reader_id"));
 		reader.setName(rs.getString("name"));
-		reader.setBirthDate(rs.getString("birth_date"));
+		reader.setBirthDate(rs.getDate("birth_date"));
 		return reader;
 	}
 
