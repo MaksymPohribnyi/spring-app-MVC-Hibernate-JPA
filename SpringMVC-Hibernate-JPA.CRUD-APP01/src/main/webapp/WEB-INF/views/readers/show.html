@@ -14,10 +14,14 @@
 	<p> <span th:if="${#lists.isEmpty(books)}">This reader hasn't picked up a book yet</span> </p>
 	<div th:unless="${#lists.isEmpty(books)}">
 		<p> <b> Books: </b> </p>
-		<tr th:each="book : ${books}">
-			<td th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfRelease()}" />
-			<br />
-		</tr>
+		<table th:each="book : ${books}">
+			<tr>
+				<td> <span th:style="${book.isDateOfReturnIsExpired() ? 'color:red;' : 'color:black;'}"
+						th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfRelease()}"> book
+					</span>
+				</td>
+			</tr>
+		</table>
 	</div>
 
 	<br />

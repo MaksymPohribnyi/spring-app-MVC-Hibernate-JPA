@@ -1,8 +1,10 @@
 package ua.pohribnyi.weblibraryORM.services;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +58,23 @@ public class ReaderService {
 		Optional<Reader> reader = readerRepository.findById(id);
 		if (reader.isPresent()) {
 			Hibernate.initialize(reader.get().getBooks());
-			return reader.get().getBooks();
+			List<Book> books = reader.get().getBooks();
+			checkIsDateOfReturnIsExpired(books);
+			return books;
 		} else {
 			return Collections.emptyList();
 		}
+	}
+
+	private void checkIsDateOfReturnIsExpired(List<Book> books) {
+		for (Book book : books) {
+			if (book.getReaderAssignedAt() != null) {
+				long currentTime = System.currentTimeMillis();
+				book.setDateOfReturnIsExpired(
+						TimeUnit.MILLISECONDS.toDays(currentTime - book.getReaderAssignedAt().getTime()) > 10);
+			}
+		}
+
 	}
 
 }

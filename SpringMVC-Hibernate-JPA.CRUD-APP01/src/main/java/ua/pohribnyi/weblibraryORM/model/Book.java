@@ -1,5 +1,9 @@
 package ua.pohribnyi.weblibraryORM.model;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -37,6 +44,14 @@ public class Book {
 	@ManyToOne
 	@JoinColumn(name = "reader_id", referencedColumnName = "reader_id")
 	private Reader owner;
+
+	@Column(name = "reader_assigned_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date readerAssignedAt;
+
+	@Transient
+	private boolean dateOfReturnIsExpired;
 
 	public Book() {
 
@@ -87,6 +102,22 @@ public class Book {
 
 	public void setOwner(Reader owner) {
 		this.owner = owner;
+	}
+
+	public Date getReaderAssignedAt() {
+		return readerAssignedAt;
+	}
+
+	public void setReaderAssignedAt(Date readerAssignedAt) {
+		this.readerAssignedAt = readerAssignedAt;
+	}
+
+	public boolean isDateOfReturnIsExpired() {
+		return dateOfReturnIsExpired;
+	}
+
+	public void setDateOfReturnIsExpired(boolean dateOfReturnIsExpired) {
+		this.dateOfReturnIsExpired = dateOfReturnIsExpired;
 	}
 
 }

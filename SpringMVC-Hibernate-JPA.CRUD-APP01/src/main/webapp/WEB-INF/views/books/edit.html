@@ -23,6 +23,11 @@
 		<div style="color: red;" th:if="${#fields.hasErrors('yearOfRelease')}" th:errors="*{yearOfRelease}"> Year of
 			release error </div>
 		<br />
+		<label for="readerAssignedAt"> Enter new time when book assigned to reader </label>
+		<input type="text" th:field="*{readerAssignedAt}" id="readerAssignedAt" />
+		<div style="color: red;" th:if="${#fields.hasErrors('readerAssignedAt')}" th:errors="*{readerAssignedAt}"> Time
+			errors </div>
+		<br />
 		<input type="submit" value="Update" />
 
 	</form>

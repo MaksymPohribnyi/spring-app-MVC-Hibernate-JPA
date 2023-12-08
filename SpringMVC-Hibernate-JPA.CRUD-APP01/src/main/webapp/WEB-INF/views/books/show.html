@@ -10,7 +10,8 @@
 	<p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfRelease()}" />
 
 	<form th:method="PATCH" th:action="@{/web-library/books/{id}/release(id = ${book.getId()})}" th:if="${owner}">
-		<p th:text="'This book now has this reader: ' + ${owner.getName()}" />
+		<p
+			th:text="'This book now has this reader: ' + ${owner.getName()} + ' and assigned at: ' + ${book.getReaderAssignedAt()}" />
 		<input type="submit" value="Release" />
 	</form>
 

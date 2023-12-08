@@ -1,7 +1,5 @@
 package ua.pohribnyi.weblibraryORM.controllers;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import ua.pohribnyi.weblibraryORM.model.Book;
@@ -34,8 +33,15 @@ public class WebLibraryBookController {
 	}
 
 	@GetMapping()
-	public String index(Model model) {
-		model.addAttribute("books", bookService.findAll());
+	public String index(@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+			@RequestParam(value = "sort_by_year", required = false) boolean sortByYear, Model model) {
+
+		if (page == null || booksPerPage == null) {
+			model.addAttribute("books", bookService.findAll(sortByYear));
+		} else {
+			model.addAttribute("books", bookService.findAll(page, booksPerPage, sortByYear));
+		}
 		return "books/index";
 	}
 
@@ -100,4 +106,17 @@ public class WebLibraryBookController {
 		bookService.delete(id);
 		return "redirect:/web-library/books";
 	}
+
+	@GetMapping("/search")
+	public String searchPage(@ModelAttribute("book") Book book) {
+		return "books/search";
+	}
+
+	@PostMapping("/search")
+	public String searchTheBookByTitlePattern(Model model,
+			@RequestParam(name = "title", required = true) String titleForSearch) {
+		model.addAttribute("books", bookService.findByTitlePattern(titleForSearch));
+		return "books/search";
+	}
+
 }
